@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le choix stratégique — Arrowverse</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050b07;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 20%, #0d2315 0%, #050b07 70%);
+        }
+
+        header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .btn-nav {
+            background-color: #0d1610;
+            border: 2px solid #1b4d28;
+            color: #7ee787;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            background-color: #122619;
+            border-color: #2ea043;
+            color: #ffffff;
+        }
+
+        main {
+            width: 100%;
+            max-width: 800px;
+            background-color: #0d1610;
+            border: 2px solid #1b4d28;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin: auto 0;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #2ea043;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #scenario-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #c9d1d9;
+        }
+
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background-color: #122619;
+            border: 1px solid #2ea043;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .choice-btn:hover {
+            background-color: #1b4d28;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 160, 67, 0.3);
+        }
+
+        footer {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="btn-nav">Accueil</a>
+        <span style="color: #8b949e; font-weight: 600;">Le choix stratégique</span>
+    </header>
+
+    <main>
+        <h1 id="game-title">Conseil de Crise</h1>
+        <div id="scenario-text">Chargement de la situation...</div>
+        <div class="choices-container" id="choices"></div>
+    </main>
+
+    <footer>
+        <button class="btn-nav" onclick="startGame()">Recommencer</button>
+    </footer>
+
+    <script>
+        const scenarios = [
+            {
+                title: "Menace sur Starling City",
+                text: "Une cargaison d'armes chimiques a été interceptée par la pègre dans les Glades. L'équipe est divisée sur la marche à suivre.",
+                choices: [
+                    { text: "Foncer en force pour tout détruire immédiatement.", next: 1 },
+                    { text: "Infiltrer discrètement les entrepôts pour récupérer les échantillons.", next: 2 }
+                ]
+            },
+            {
+                title: "L'Assaut de l'Entrepôt",
+                text: "En fonçant dans le tas, vous provoquez une fusillade intense. Des civils risquent d'être pris entre les feux.",
+                choices: [
+                    { text: "Sécuriser les civils quitte à laisser fuir les criminels.", next: 3 },
+                    { text: "Neutraliser la menace par la force brute sans s'arrêter.", next: 4 }
+                ]
+            },
+            {
+                title: "Infiltration Discrète",
+                text: "En jouant la carte de la discrétion, vous découvrez que la police locale est compromise et attend vos faits et gestes.",
+                choices: [
+                    { text: "Transmettre les preuves anonymement à Captain Lance.", next: 3 },
+                    { text: "Mener l'opération en solo sans faire confiance aux autorités.", next: 4 }
+                ]
+            },
+            {
+                title: "Victoire Tactique",
+                text: "La crise est désamorcée de justesse. Starling City est sauvée pour cette nuit, mais les ennemis gardent l'œil ouvert.",
+                choices: [{ text: "Recommencer une mission", next: 0 }]
+            },
+            {
+                title: "Coup Dur",
+                text: "La situation a dégénéré et la confiance de l'équipe a été ébranlée. Il faudra redoubler d'efforts la prochaine fois.",
+                choices: [{ text: "Recommencer une mission", next: 0 }]
+            }
+        ];
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function showScenario(index) {
+            const scenario = scenarios[index];
+            document.getElementById('game-title').innerText = scenario.title;
+            document.getElementById('scenario-text').innerText = scenario.text;
+            
+            const choicesContainer = document.getElementById('choices');
+            choicesContainer.innerHTML = '';
+
+            let currentChoices = [...scenario.choices];
+            if (index === 0 || index === 1 || index === 2) {
+                currentChoices = shuffleArray(currentChoices);
+            }
+
+            currentChoices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.innerText = choice.text;
+                btn.onclick = () => showScenario(choice.next);
+                choicesContainer.appendChild(btn);
+            });
+        }
+
+        function startGame() {
+            showScenario(0);
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

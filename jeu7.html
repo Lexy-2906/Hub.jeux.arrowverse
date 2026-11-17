@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chroniques du Multivers — 10 Missions (8 Étapes)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        title: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        deepPurple: '#050b07',
+                        panelBg: '#0d1610',
+                        neonViolet: '#7ee787',
+                        electricCyan: '#2ea043',
+                        crimsonFail: '#f43f5e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050b07;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 20%, #0d2315 0%, #050b07 70%);
+        }
+        .title-font {
+            font-family: 'Cinzel', serif;
+        }
+        .glow-violet {
+            box-shadow: 0 0 30px rgba(46, 160, 67, 0.35), inset 0 0 15px rgba(46, 160, 67, 0.15);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(46, 160, 67, 0.35), inset 0 0 15px rgba(46, 160, 67, 0.15);
+        }
+        .glow-fail {
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.35), inset 0 0 15px rgba(244, 63, 94, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- En-tête -->
+    <header class="w-full py-4 px-6 border-b border-[#1b4d28] bg-[#0d1610]/85 backdrop-blur-md flex justify-between items-center z-20">
+        <div class="flex items-center space-x-4">
+            <!-- Bouton Accueil Haut Gauche pointant vers le Hub -->
+            <a href="index.html" class="bg-[#122619] hover:bg-[#1b4d28] text-[#7ee787] border border-[#2ea043]/40 px-3 py-2 rounded-xl text-sm font-bold transition flex items-center space-x-2 title-font">
+                <i class="fa-solid fa-house"></i>
+                <span class="hidden sm:inline">Accueil</span>
+            </a>
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-[#2ea043] to-[#7ee787] p-2 rounded-2xl text-black font-extrabold text-xl shadow-lg">
+                    <i class="fa-solid fa-atom text-black"></i>
+                </div>
+                <div>
+                    <h1 class="title-font text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#7ee787] via-emerald-300 to-[#2ea043]">
+                        CHRONIQUES DU MULTIVERS
+                    </h1>
+                    <p class="text-xs text-[#8b949e]">10 Missions (8 Étapes par mission)</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Zone Centrale -->
+    <main class="flex-grow flex flex-col items-center justify-center p-4 max-w-4xl mx-auto w-full relative z-10">
+
+        <!-- Écran d'accueil & Règles -->
+        <div id="startScreen" class="text-center w-full max-w-2xl bg-panelBg/90 border border-[#2ea043]/30 p-8 rounded-3xl shadow-2xl backdrop-blur-xl">
+            <div class="inline-block p-4 bg-deepPurple rounded-full mb-6 border border-[#2ea043]/40 glow-violet">
+                <i class="fa-solid fa-book-journal-whills text-5xl text-electricCyan"></i>
+            </div>
+            <h2 class="title-font text-4xl font-extrabold mb-3 text-white">Opération Multivers</h2>
+            <p class="text-[#8b949e] mb-8">Traversez 8 étapes cruciales par mission. Chaque choix en direct pèse lourd, et la bonne réponse change constamment de camp !</p>
+            
+            <div class="bg-deepPurple p-6 rounded-2xl border border-[#1b4d28] mb-8 text-left">
+                <h3 class="title-font text-xl font-bold text-electricCyan mb-3"><i class="fa-solid fa-scroll mr-2"></i> Règles du Jeu</h3>
+                <ul class="space-y-3 text-sm text-purple-100/90">
+                    <li><i class="fa-solid fa-diamond text-neonViolet mr-2"></i> Chaque mission comporte exactement 8 étapes de survie.</li>
+                    <li><i class="fa-solid fa-diamond text-neonViolet mr-2"></i> Le chat vote pour l'option A ou B dans les commentaires.</li>
+                    <li><i class="fa-solid fa-diamond text-neonViolet mr-2"></i> <strong>Attention :</strong> Une erreur déclenche un échec immédiat et relance une nouvelle mission !</li>
+                </ul>
+            </div>
+
+            <button onclick="startGame()" class="w-full py-4 bg-gradient-to-r from-[#2ea043] via-emerald-600 to-teal-700 hover:opacity-90 text-white font-extrabold text-xl rounded-2xl shadow-lg glow-cyan transform hover:-translate-y-0.5 transition duration-200 uppercase tracking-widest title-font">
+                Lancer l'Aventure <i class="fa-solid fa-play ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Écran de Jeu Actif -->
+        <div id="gameScreen" class="w-full hidden flex flex-col items-center max-w-3xl">
+            
+            <!-- Barre d'infos -->
+            <div class="w-full flex justify-between items-center mb-6 px-4 bg-panelBg/80 p-4 rounded-2xl border border-[#1b4d28] backdrop-blur-md">
+                <span class="bg-deepPurple px-3 py-1 rounded-full text-xs font-bold text-electricCyan uppercase title-font tracking-widest border border-[#1b4d28]" id="missionIndicator">Mission — Étape 1 / 8</span>
+                <span class="text-xs text-[#8b949e] font-semibold uppercase tracking-wider">Le chat décide !</span>
+            </div>
+
+            <!-- Boîte de scénario -->
+            <div class="w-full bg-panelBg/90 border border-[#1b4d28] p-8 rounded-3xl shadow-2xl mb-6 text-center glow-violet">
+                <h3 class="title-font text-xs text-electricCyan font-bold mb-3 uppercase tracking-widest"><i class="fa-solid fa-compass mr-1"></i> Point de Situation</h3>
+                <p id="scenarioText" class="title-font text-xl sm:text-2xl font-bold text-white mb-8 leading-relaxed">
+                    Chargement du scénario...
+                </p>
+
+                <!-- Boutons de Choix (A et B) -->
+                <div id="choicesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Écran de Fin de Mission (Succès ou Échec) -->
+        <div id="resultScreen" class="hidden text-center w-full max-w-2xl bg-panelBg/90 border border-[#1b4d28] p-8 rounded-3xl shadow-2xl backdrop-blur-xl">
+            <div id="resultIconContainer" class="inline-block p-4 bg-deepPurple rounded-full mb-6 border border-[#2ea043]/40">
+                <!-- Icône dynamique -->
+            </div>
+            <h2 class="title-font text-4xl font-extrabold mb-3 text-white" id="resultTitle">Titre Résultat</h2>
+            <p class="text-[#8b949e] mb-8 text-base leading-relaxed" id="resultDesc">Description du résultat...</p>
+
+            <button id="resultActionBtn" onclick="" class="w-full py-4 font-extrabold text-xl rounded-2xl shadow-lg transition uppercase tracking-widest title-font">
+                Action Suivante
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Bouton Recommencer / Reset -->
+    <button onclick="goToWelcome()" class="fixed right-6 bottom-6 bg-panelBg hover:bg-emerald-950 text-[#7ee787] border border-[#2ea043]/40 px-4 py-3 rounded-xl text-xs transition flex items-center space-x-2 title-font font-bold shadow-2xl z-50">
+        <i class="fa-solid fa-rotate-right text-electricCyan"></i>
+        <span>Recommencer</span>
+    </button>
+
+    <footer class="py-3 text-center text-xs text-[#8b949e] border-t border-[#1b4d28] z-10">
+        Chroniques du Multivers — Interface Narrative Interactive
+    </footer>
+
+    <script>
+        const missionsDatabase = [
+            {
+                title: "Mission 1 : Le Coffre de S.T.A.R. Labs",
+                steps: [
+                    { text: "Vous pénétrez dans S.T.A.R. Labs. Devant vous, un terminal clignote.", choices: [ { text: "A. Couper l'alimentation du bâtiment", isFail: true, failText: "Alarme silencieuse d'ARGUS déclenchée !" }, { text: "B. Pirater le terminal d'accès", nextStep: 1 } ] },
+                    { text: "Le terminal demande un mot de passe mémoriel lié à Eobard Thawne.", choices: [ { text: "A. Utiliser la bague tachyonique de secours", nextStep: 2 }, { text: "B. Tenter le nom de la mère de Barry", isFail: true, failText: "Piège anti-intrusion mémoriel : décharge électrique !" } ] },
+                    { text: "La Time Vault est ouverte. Que faites-vous du prototype anti-speedster ?", choices: [ { text: "A. Tout fouiller pour trouver plus de gadgets", isFail: true, failText: "Barry Allen arrive en trombe pour vous neutraliser !" }, { text: "B. Prendre le prototype et fuir par les toits", nextStep: 3 } ] },
+                    { text: "En fuyant sur les toits, un drone de surveillance vous repère.", choices: [ { text: "A. Le brouiller avec un gadget électromagnétique", nextStep: 4 }, { text: "B. Le détruire au pistolet laser", isFail: true, failText: "Le bruit attire toute la patrouille de police !" } ] },
+                    { text: "Vous devez traverser un pont suspendu pour quitter le secteur sud.", choices: [ { text: "A. Courir à découvert sur le pont", isFail: true, failText: "Cibles idéales pour les snipers postés en hauteur." }, { text: "B. Longer les canalisations sous le pont", nextStep: 5 } ] },
+                    { text: "Une patrouille de méta-humains bloque l'issue des égouts.", choices: [ { text: "A. Utiliser une grenade aveuglante et filer", nextStep: 6 }, { text: "B. Les affronter directement au corps à corps", isFail: true, failText: "Ils possèdent une force surhumaine, vous êtes submergés." } ] },
+                    { text: "Vous arrivez au point de rendez-vous, mais le véhicule de fuite est endommagé.", choices: [ { text: "A. Réparer le contact électrique en urgence", nextStep: 7 }, { text: "B. Voler une voiture civile au hasard", isFail: true, failText: "La voiture était piégée par un alerteur satellite." } ] },
+                    { text: "Dernier obstacle : un dernier barrage de sécurité avant la sortie de la ville.", choices: [ { text: "A. Forcer le barrage en accélérant à fond", isFail: true, failText: "Les herses lacèrent vos pneus, c'est l'arrestation." }, { text: "B. Emprunter un tunnel abandonné secret", isSuccess: true, successText: "Sortie triomphale ! Le prototype est sauvé et la mission est un succès total !" } ] }
+                ]
+            },
+            {
+                title: "Mission 2 : L'Infiltration de Lian Yu",
+                steps: [
+                    { text: "Votre hélicoptère est pris sous les tirs de mercenaires en arrivant sur l'île.", choices: [ { text: "A. Tenter un atterrissage d'urgence sur la plage", isFail: true, failText: "La plage est truffée de mines antipersonnel !" }, { text: "B. Sauter en parachute dans la jungle dense", nextStep: 1 } ] },
+                    { text: "Au sol dans la jungle, vous devez choisir votre direction.", choices: [ { text: "A. Suivre l'ancienne piste des commandos de Slade", nextStep: 2 }, { text: "B. Marcher droit à travers les ronces et marécages", isFail: true, failText: "Enlisement mortel dans des sables mouvants." } ] },
+                    { text: "Un campement ennemi barre la route principale.", choices: [ { text: "A. Attaquer de front pour faire diversion", isFail: true, failText: "Ils étaient trop nombreux, vous êtes encerclés." }, { text: "B. Contourner discrètement par la falaise escarpée", nextStep: 3 } ] },
+                    { text: "La falaise est glissante sous la pluie tropicale.", choices: [ { text: "A. Utiliser un grappin d'escalade sécurisé", nextStep: 4 }, { text: "B. Grimper à mains nues pour aller plus vite", isFail: true, failText: "La roche lâche, c'est la chute dans le vide." } ] },
+                    { text: "Vous atteignez l'entrée d'un ancien bunker abandonné.", choices: [ { text: "A. Forcer la porte blindée au C4", isFail: true, failText: "Explosion repérée par tous les gardes de l'île." }, { text: "B. Chercher le panneau de ventilation secondaire", nextStep: 5 } ] },
+                    { text: "À l'intérieur du conduit, un système de ventilation automatisé rejette de l'air brûlant.", choices: [ { text: "A. Attendre le cycle de refroidissement", nextStep: 6 }, { text: "B. Filer en rampant très vite à travers la chaleur", isFail: true, failText: "Brûlures graves et asphyxie instantanée." } ] },
+                    { text: "Vous arrivez dans la salle des serveurs principaux du camp.", choices: [ { text: "A. Télécharger les fichiers compromettants sur une clé", nextStep: 7 }, { text: "B. Taper sur les claviers pour tout effacer par rage", isFail: true, failText: "Une alarme se déclenche et verrouille la pièce." } ] },
+                    { text: "La base s'autodétruit ! Il faut fuir immédiatement.", choices: [ { text: "A. Courir vers le dock nord", isFail: true, failText: "Le ponton explose juste avant votre arrivée." }, { text: "B. Rejoindre la canoë de secours sur la côte ouest", isSuccess: true, successText: "Vous repartez sains et saufs de l'île maudite avec les preuves !" } ] }
+                ]
+            },
+            {
+                title: "Mission 3 : Sauvetage à National City",
+                steps: [
+                    { text: "Des drones extraterrestres envahissent le ciel de National City.", choices: [ { text: "A. Courir vers un centre commercial souterrain", isFail: true, failText: "Les drones ciblent en priorité les structures urbaines." }, { text: "B. Activer le canon sonique improvisé de Winn", nextStep: 1 } ] },
+                    { text: "Le générateur du canon sonique surchauffe subitement.", choices: [ { text: "A. Pousser la puissance au maximum sans réguler", isFail: true, failText: "Explosion cataclysmique du générateur !" }, { text: "B. Verser de l'azote liquide pour refroidir le noyau", nextStep: 2 } ] },
+                    { text: "Un groupe de civils est bloqué sous des décombres enflammés.", choices: [ { text: "A. Dégager les poutres avec un cric hydraulique", nextStep: 3 }, { text: "B. Tirer sur les décombres avec un fusil laser", isFail: true, failText: "Les tirs font s'effondrer tout le plafond sur les civils." } ] },
+                    { text: "Un agent de liaison extraterrestre vous transmet un code de désactivation.", choices: [ { text: "A. Entrer le code dans le terminal central des drones", nextStep: 4 }, { text: "B. Ignorer le message et continuer à fuir", isFail: true, failText: "Vous ratez l'unique chance de désactiver l'essaim." } ] },
+                    { text: "Les drones restants changent de stratégie et forment un bouclier laser.", choices: [ { text: "A. Envoyer un virus informatique via le réseau local", nextStep: 5 }, { text: "B. Tenter de traverser le bouclier à moto", isFail: true, failText: "La moto est vaporisée par l'énergie pure du bouclier." } ] },
+                    { text: "Le virus perturbe le vaisseau mère stationné en orbite basse.", choices: [ { text: "A. Pirater la passerelle de commandement pour couper les moteurs", nextStep: 6 }, { text: "B. Envoyer un message insultant en boucle sur leur fréquence", isFail: true, failText: "Le vaisseau réplique en tirant un obus à plasma direct sur vous." } ] },
+                    { text: "Le vaisseau ennemi commence à perdre de l'altitude au-dessus du centre.", choices: [ { text: "A. Orienter les réflecteurs solaires pour les aveugler", nextStep: 7 }, { text: "B. Attendre qu'il s'écrase de lui-même", isFail: true, failText: "Il s'écrase sur la tour principale, provoquant une catastrophe." } ] },
+                    { text: "Dernière étape : sécuriser le périmètre de crash pour éviter les pillages.", choices: [ { text: "A. Laisser faire la police locale dépassée", isFail: true, failText: "Des pilleurs s'emparent de technologies aliens dangereuses." }, { text: "B. Établir un périmètre de quarantaine étanche", isSuccess: true, successText: "Ville sauvée et technologie sécurisée avec brio !" } ] }
+                ]
+            },
+            {
+                title: "Mission 4 : Le QG de la Ligue des Assassins",
+                steps: [
+                    { text: "Vous devez vous introduire dans le temple de Nanda Parbat.", choices: [ { text: "A. S'infiltrer par les conduits d'aération supérieurs", nextStep: 1 }, { text: "B. Défier le garde à l'entrée en duel", isFail: true, failText: "Le garde sonne l'alarme et appelle des dizaines d'assassins." } ] },
+                    { text: "La dague mystique est posée sur un piédestal piégé.", choices: [ { text: "A. Saisir la dague d'un coup sec", isFail: true, failText: "Des fléchettes empoisonnées jaillissent instantanément !" }, { text: "B. Remplacer la dague par un contrepoids précis", nextStep: 2 } ] },
+                    { text: "L'alarme retentit au moment de quitter la salle.", choices: [ { text: "A. Utiliser un fumigène et fuir par la trappe", nextStep: 3 }, { text: "B. Charger sabre au clair dans le grand hall", isFail: true, failText: "Suicide collectif face à l'élite de la Ligue." } ] },
+                    { text: "Dans les couloirs extérieurs, un archer d'élite vous prend pour cible.", choices: [ { text: "A. Riposter en tirant à l'aveuglette dans les coins", isFail: true, failText: "Vous offrez une cible parfaite à l'archer." }, { text: "B. Utiliser un bouclier balistique de fortune", nextStep: 4 } ] },
+                    { text: "Vous débouchez sur un pont de corde au-dessus d'un immense ravin.", choices: [ { text: "A. Traverser en courant le plus vite possible", isFail: true, failText: "Le pont cède sous les vibrations et les tirs." }, { text: "B. Progresser un par un en s'assurant avec des mousquetons", nextStep: 5 } ] },
+                    { text: "De l'autre côté du ravin, une tempête de neige se lève subitement.", choices: [ { text: "A. S'abriter dans une caverne rocheuse le temps que ça passe", nextStep: 6 }, { text: "B. Continuer à marcher dans le blizzard sans visibilité", isFail: true, failText: "Vous chutez mortellement dans une crevasse invisible." } ] },
+                    { text: "Un loup des neiges alpha bloque votre unique sentier de descente.", choices: [ { text: "A. Lancer une ration de nourriture pour le distraire", nextStep: 7 }, { text: "B. Tenter de l'intimider en criant très fort", isFail: true, failText: "La bête bondit et vous attaque férocement." } ] },
+                    { text: "Dernière ligne droite avant le point d'extraction dans la vallée.", choices: [ { text: "A. Courir vers l'hélicoptère en signalant votre position", isSuccess: true, successText: "Extraction réussie ! La dague est en sécurité." }, { text: "B. Attendre la nuit tombée en plein air sans protection", isFail: true, failText: "Hypothermie sévère avant l'arrivée des secours." } ] }
+                ]
+            },
+            {
+                title: "Mission 5 : L'Attaque du Waverider",
+                steps: [
+                    { text: "Le vaisseau temporel subit une avarie critique. Gideon est hors ligne.", choices: [ { text: "A. Ouvrir les écoutilles pour purger la pression", isFail: true, failText: "Le vide spatial aspire toute l'équipe !" }, { text: "B. Redémarrer manuellement le noyau dans la soute", nextStep: 1 } ] },
+                    { text: "Un paradoxe temporel bloque le système de navigation.", choices: [ { text: "A. Programmer un saut d'urgence vers l'an 2046", nextStep: 2 }, { text: "B. Tricher en trifouillant les câbles au hasard", isFail: true, failText: "Court-circuit fatal qui désintègre la console." } ] },
+                    { text: "Le vaisseau atterrit en catastrophe dans un Star City futuriste.", choices: [ { text: "A. Sortir immédiatement bras levés pour saluer", isFail: true, failText: "Des pillards armés ouvrent le feu sans sommation." }, { text: "B. Envoyer un signal de détresse chiffré à la résistance", nextStep: 3 } ] },
+                    { text: "La résistance accepte de vous aider mais exige un composant en échange.", choices: [ { text: "A. Leur céder une pièce de rechange non essentielle", nextStep: 4 }, { text: "B. Refuser catégoriquement et les menacer", isFail: true, failText: "Ils vous expulsent manu militari du secteur." } ] },
+                    { text: "Pour trouver la pièce, il faut fouiller une vieille armurerie de Queen Consolidated.", choices: [ { text: "A. Déverrouiller le coffre électronique avec un séquenceur", nextStep: 5 }, { text: "B. Tenter d'ouvrir le coffre à coups de masse", isFail: true, failText: "Le système de sécurité incendie noie la pièce de napalm." } ] },
+                    { text: "Un groupe de chasseurs de primes temporels débarque dans l'armurerie !", choices: [ { text: "A. Se cacher sous les étagères en retenant sa respiration", nextStep: 6 }, { text: "B. Courir vers la sortie sous leurs tirs croisés", isFail: true, failText: "Touches multiples par des rayons désintégrateurs." } ] },
+                    { text: "Vous regagnez le Waverider mais la porte principale est bloquée par un champ de force.", choices: [ { text: "A. Utiliser un saphir temporel pour surcharger le bouclier", nextStep: 7 }, { text: "B. Donner un grand coup de pied dans la porte", isFail: true, failText: "Le bouclier renvoie l'impact et vous propulse dix mètres plus loin." } ] },
+                    { text: "Décollage d'urgence imminent ! Le chronomètre est lancé.", choices: [ { text: "A. Activer les propulseurs à l'aveugle sans aligner les coordonnées", isFail: true, failText: "Vous vous écrasez au pléistocène au milieu des dinosaures." }, { text: "B. Enclencher le protocole de saut temporel standard", isSuccess: true, successText: "Saut réussi ! Le Waverider file à nouveau à travers les époques !" } ] }
+                ]
+            },
+            {
+                title: "Mission 6 : Infiltration chez ARGUS",
+                steps: [
+                    { text: "Vous devez subtiliser les plans d'un satellite militaire top-secret.", choices: [ { text: "A. Pénétrer par la porte principale en uniforme volé", isFail: true, failText: "Contrôle d'iris immédiat : alerte rouge activée !" }, { text: "B. Pirater le système à distance pour simuler une maintenance", nextStep: 1 } ] },
+                    { text: "Le pare-feu informatique résiste. Un compte à rebours de sécurité démarre.", choices: [ { text: "A. Injecter un script de décryptage rapide", nextStep: 2 }, { text: "B. Débrancher brutalement les câbles du serveur", isFail: true, failText: "Effacement instantané de toutes les données et verrouillage." } ] },
+                    { text: "Les gardes approchent de la salle des serveurs.", choices: [ { text: "A. Se faufiler dans le faux plafond", nextStep: 3 }, { text: "B. Faire mine de balayer le sol avec un seau", isFail: true, failText: "Vous n'avez pas le badge d'agent d'entretien, c'est l'arrestation." } ] },
+                    { text: "Vous accédez au bureau de la directrice Lyla Michaels.", choices: [ { text: "A. Fouiller le coffre mural derrière son portrait", nextStep: 4 }, { text: "B. Boire son café posé sur le bureau", isFail: true, failText: "Le café contenait un traceur chimique incapacitant." } ] },
+                    { text: "Le coffre mural contient une clé USB maître cryptée.", choices: [ { text: "A. La copier directement sur votre propre terminal", nextStep: 5 }, { text: "B. L'avaler pour la revendre plus tard sur le marché noir", isFail: true, failText: "Idée absurde : la clé se désintègre au contact des acides gastriques." } ] },
+                    { text: "L'alarme générale se déclenche à cause d'un capteur de mouvement oublié.", choices: [ { text: "A. Activer le protocole d'évacuation par les sous-sols", nextStep: 6 }, { text: "B. Tenter de raisonner le gardien par interphone", isFail: true, failText: "Le gardien envoie l'escouade d'intervention lourde." } ] },
+                    { text: "Les portes automatiques se ferment une à une sur votre passage.", choices: [ { text: "A. Glisser sous la dernière porte juste avant qu'elle ne se referme", nextStep: 7 }, { text: "B. Essayer de forcer l'acier trempé à mains nues", isFail: true, failText: "Écrasement garanti sous le poids de la porte blindée." } ] },
+                    { text: "Dernier pas vers la liberté : le parking souterrain.", choices: [ { text: "A. Voler le van blindé de transport de la directrice", isSuccess: true, successText: "Véhicule officiel utilisé pour forcer le portail : évasion parfaite !" }, { text: "B. Sortir en sifflotant à pied au milieu des gardes armés", isFail: true, failText: "Cible trop facile en plein air, vous êtes interceptés." } ] }
+                ]
+            },
+            {
+                title: "Mission 7 : Le Piège de Tierra-X",
+                steps: [
+                    { text: "Vous arrivez par erreur sur une Terre alternative sous régime autoritaire.", choices: [ { text: "A. Attaquer le premier checkpoint armé", isFail: true, failText: "Une division blindée entière vous pulvérise en un instant." }, { text: "B. Se fondre dans la foule en adoptant profil bas", nextStep: 1 } ] },
+                    { text: "Un officier patrouille et exige vos papiers d'identité au coin d'une rue.", choices: [ { text: "A. Improviser une histoire de touriste égaré", isFail: true, failText: "L'officier remarque l'absence de badge officiel et sonne l'alerte." }, { text: "B. Utiliser un projecteur d'hologramme pour imiter un haut gradé", nextStep: 2 } ] },
+                    { text: "L'hologramme fonctionne temporairement, mais la station de transmission est en vue.", choices: [ { text: "A. S'emparer de la station par surprise", nextStep: 3 }, { text: "B. Attendre sagement sur un banc qu'un portail s'ouvre tout seul", isFail: true, failText: "La patrouille revient et vous cueille par surprise." } ] },
+                    { text: "Le terminal de la station demande un mot de passe militaire complexe.", choices: [ { text: "A. Essayer la combinaison universelle de secours (0000)", isFail: true, failText: "Verrouillage immédiat des terminaux de la zone." }, { text: "B. Utiliser le décrypteur quantique de poche", nextStep: 4 } ] },
+                    { text: "Le décrypteur fonctionne, mais un garde arrive dans la pièce.", choices: [ { text: "A. Le neutraliser discrètement par surprise", nextStep: 5 }, { text: "B. Essayer de lui expliquer que vous venez en paix", isFail: true, failText: "Il décharge son fusil laser sans écouter vos explications." } ] },
+                    { text: "Le portail commence à s'ouvrir, mais l'alimentation électrique vacille.", choices: [ { text: "A. Rediriger l'énergie du secteur vers le portail", nextStep: 6 }, { text: "B. Taper du poing sur le générateur en espérant que ça tienne", isFail: true, failText: "Panne sèche, le portail se referme définitivement." } ] },
+                    { text: "Des renforts ennemis encerclent le bâtiment de transmission.", choices: [ { text: "A. Tenir la position en tirant à travers les fenêtres", nextStep: 7 }, { text: "B. Fuir en direction du portail instable", isFail: true, failText: "Vous êtes pris entre les tirs et l'énergie du portail." } ] },
+                    { text: "Dernière seconde avant le saut de retour vers votre univers !", choices: [ { text: "A. Hésiter une fraction de seconde de trop", isFail: true, failText: "Le portail se referme alors que vous êtes à moitié dedans." }, { text: "B. Plonger tête baissée à travers le vortex lumineux", isSuccess: true, successText: "Saut réussi ! Vous êtes de retour sur votre Terre d'origine !" } ] }
+                ]
+            },
+            {
+                title: "Mission 8 : Braquage au Musée de Central City",
+                steps: [
+                    { text: "Un artefact technologique est exposé au musée. Comment entrer ?", choices: [ { text: "A. Entrer par la grande porte avec des feux d'artifice", isFail: true, failText: "La police locale arrive en trois minutes chrono." }, { text: "B. Désactiver les lasers par la verrière du toit", nextStep: 1 } ] },
+                    { text: "Vous êtes dans la salle d'exposition sous haute tension.", choices: [ { text: "A. Tenter de soulever la cloche de verre à mains nues", isFail: true, failText: "Décharge létale immédiate par champ magnétique !" }, { text: "B. Utiliser un coupe-verre au plasma de pointe", nextStep: 2 } ] },
+                    { text: "L'artefact est libéré mais émet une lueur pulsée suspecte.", choices: [ { text: "A. L'envelopper immédiatement dans une pochette isolante au plomb", nextStep: 3 }, { text: "B. Le glisser directement dans votre poche de pantalon", isFail: true, failText: "Le rayonnement irradie vos jambes, vous vous effondrez." } ] },
+                    { text: "L'alarme anti-vol retentit dans tout le musée.", choices: [ { text: "A. Courir vers la sortie principale en courant vite", isFail: true, failText: "Les forces d'intervention vous attendent de pied ferme dehors." }, { text: "B. Emprunter le monte-charge de service discret", nextStep: 4 } ] },
+                    { text: "Flash débarque sur les lieux pour intercepter les voleurs !", choices: [ { text: "A. Activer une grenade à impulsion tachyonique", nextStep: 5 }, { text: "B. Essayer de parlementer gentiment avec lui", isFail: true, failText: "Barry vous menotte à un radiateur en un éclair." } ] },
+                    { text: "La grenade ralentit Barry, mais sa coéquipière arrive en renfort.", choices: [ { text: "A. Utiliser un fumigène cryogénique pour bloquer sa vision", nextStep: 6 }, { text: "B. Lui lancer des objets lourds au visage", isFail: true, failText: "Elle esquive tout sans effort grâce à ses réflexes accrus." } ] },
+                    { text: "Vous atteignez la ruelle arrière où votre moto vous attend.", choices: [ { text: "A. Démarrer en trombe dans la circulation", nextStep: 7 }, { text: "B. Pousser la moto discrètement dans la ruelle sombre", isFail: true, failText: "Trop lent, la police vous coince dans l'impasse." } ] },
+                    { text: "Dernier virage pour échapper à la patrouille de police.", choices: [ { text: "A. Emprunter le chantier de construction pour semer les voitures", isSuccess: true, successText: "Acrobatie réussie ! Vous disparaissez dans les méandres de la ville avec le magot !" }, { text: "B. Emprunter l'avenue principale rectiligne", isFail: true, failText: "Voiture de police bélier en face : fin de course." } ] }
+                ]
+            },
+            {
+                title: "Mission 9 : Incursion au QG de la Ruche (H.I.V.E.)",
+                steps: [
+                    { text: "Damien Darhk prépare un rituel occulte souterrain.", choices: [ { text: "A. Foncer dans l'église abandonnée en surface", isFail: true, failText: "Embuscade fatale : des dizaines de fanatiques armés vous attendent." }, { text: "B. Descente en rappel discrète dans les catacombes", nextStep: 1 } ] },
+                    { text: "Des symboles mystiques lumineux bloquent le couloir.", choices: [ { text: "A. Essayer de traverser en force en fonçant dans le mur", isFail: true, failText: "La barrière mystique renvoie votre énergie et vous assomme." }, { text: "B. Utiliser un contre-sortilège des grimoires de Constantine", nextStep: 2 } ] },
+                    { text: "Vous découvrez les otages retenus en cage par les adeptes.", choices: [ { text: "A. Forcer les serrures des cages avec un passe-partout", nextStep: 3 }, { text: "B. Crier aux otages de secouer les grilles", isFail: true, failText: "Le bruit attire immédiatement les gardes du culte." } ] },
+                    { text: "Damien Darhk sent votre présence et coupe l'éclairage de la salle.", choices: [ { text: "A. Allumer des torches de secours pour y voir clair", isFail: true, failText: "Vous devenez une cible parfaite dans le noir." }, { text: "B. Utiliser des lunettes à vision nocturne", nextStep: 4 } ] },
+                    { text: "Un garde armé surgit de l'ombre juste devant vous.", choices: [ { text: "A. Le neutraliser en silence par étranglement arrière", nextStep: 5 }, { text: "B. Tenter de lui faire un croche-patte amical", isFail: true, failText: "Il riposte immédiatement avec un couteau de combat." } ] },
+                    { text: "Vous arrivez dans la chambre rituelle principale.", choices: [ { text: "A. Tirer une flèche spéciale neutralisant la magie", nextStep: 6 }, { text: "B. Lancer un fumigène classique en criant très fort", isFail: true, failText: "Darhk vous fige sur place d'un simple mouvement de main." } ] },
+                    { text: "La magie noire se dissipe, mais les adeptes paniquent.", choices: [ { text: "A. Guider rapidement les otages vers la sortie des égouts", nextStep: 7 }, { text: "B. Vouloir récupérer le trésor en or du culte", isFail: true, failText: "L'avarice vous perd : le plafond s'effondre sur vous." } ] },
+                    { text: "Dernière étape : remonter à la surface avec tout le monde.", choices: [ { text: "A. Sortir par la trappe principale au milieu de la rue", isFail: true, failText: "La milice armée surveillait la sortie en surface." }, { text: "B. Emprunter l'issue de secours secondaire discrète", isSuccess: true, successText: "Otages sauvés et culte neutralisé ! Mission accomplie !" } ] }
+                ]
+            },
+            {
+                title: "Mission 10 : Le Casse de l'Immeuble Wayne",
+                steps: [
+                    { text: "Vous devez pénétrer dans le coffre-fort abandonné de Wayne Enterprises.", choices: [ { text: "A. Pirater le système de sécurité automatisé", nextStep: 1 }, { text: "B. Faire exploser le mur extérieur au plastic", isFail: true, failText: "Tourelles mitrailleuses automatiques activées !" } ] },
+                    { text: "Un labyrinthe de lasers infrarouges protège l'accès.", choices: [ { text: "A. Tenter de slalomer en courant au hasard", isFail: true, failText: "Un rayon est coupé, scellant la pièce sous un dôme d'acier." }, { text: "B. Utiliser une poudre fluorescente pour les révéler", nextStep: 2 } ] },
+                    { text: "Le coffre est grand ouvert mais la super-batterie est instable.", choices: [ { text: "A. La saisir directement à mains nues pour gagner du temps", isFail: true, failText: "Irradiation critique immédiate des mains." }, { text: "B. La manipuler avec des pinces isolées au plomb", nextStep: 3 } ] },
+                    { text: "Le système de sécurité de secours de Batwoman s'enclenche.", choices: [ { text: "A. Activer un inhibiteur de signal de proximité", nextStep: 4 }, { text: "B. Tenter de débrancher l'ordinateur central à coups de poing", isFail: true, failText: "Décharge électrique de haute tension par le boîtier." } ] },
+                    { text: "Des chauves-souris robotiques de surveillance envahissent la pièce.", choices: [ { text: "A. Lancer une impulsion EMP portable", nextStep: 5 }, { text: "B. Les repousser avec un balai trouvé dans un coin", isFail: true, failText: "Elles vous lacèrent les bras en un rien de temps." } ] },
+                    { text: "Vous devez trouver une issue de secours alternative dans le bâtiment.", choices: [ { text: "A. Emprunter le monte-charge de service désaffecté", nextStep: 6 }, { text: "B. Sauter par la fenêtre du 5ème étage", isFail: true, failText: "Chute libre mortelle sur le bitume de Gotham." } ] },
+                    { text: "Le monte-charge grince et se coince entre deux étages.", choices: [ { text: "A. Forcer les portes manuelles à la force des bras", nextStep: 7 }, { text: "B. Appuyer frénétiquement sur le bouton d'urgence", isFail: true, failText: "Le câble principal cède sous les à-coups." } ] },
+                    { text: "Dernier pas vers la liberté dans les rues sombres de Gotham.", choices: [ { text: "A. Marcher au milieu de la rue sous la pluie", isFail: true, failText: "Une patrouille de police corrompue vous cueille net." }, { text: "B. S'enfuir par les ruelles sombres avec le butin", isSuccess: true, successText: "Casse légendaire réussi au cœur de Gotham City !" } ] }
+                ]
+            }
+        ];
+
+        let currentMissionIndex = 0;
+        let currentStepIndex = 0;
+
+        function goToWelcome() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+
+        function startGame() {
+            currentMissionIndex = Math.floor(Math.random() * missionsDatabase.length);
+            currentStepIndex = 0;
+
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            loadStep();
+        }
+
+        function loadStep() {
+            const mission = missionsDatabase[currentMissionIndex];
+            const step = mission.steps[currentStepIndex];
+
+            document.getElementById('missionIndicator').innerText = `${mission.title} — Étape ${currentStepIndex + 1} / 8`;
+            document.getElementById('scenarioText').innerText = step.text;
+
+            const container = document.getElementById('choicesContainer');
+            container.innerHTML = '';
+
+            step.choices.forEach((choice, idx) => {
+                let btn = document.createElement('button');
+                btn.className = "bg-deepPurple hover:bg-[#122619] text-white border border-[#1b4d28] p-5 rounded-2xl text-left transition duration-200 flex items-center space-x-3 group cursor-pointer";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-[#050b07] border border-[#2ea043]/40 flex items-center justify-center text-[#7ee787] font-bold group-hover:bg-[#2ea043] group-hover:text-white transition title-font">${idx === 0 ? 'A' : 'B'}</span>
+                    <span class="flex-grow font-medium text-sm sm:text-base">${choice.text}</span>
+                `;
+                btn.onclick = () => handleChoice(choice);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleChoice(choice) {
+            if (choice.isFail) {
+                showResult(false, choice.failText);
+            } else if (choice.isSuccess) {
+                showResult(true, choice.successText);
+            } else {
+                currentStepIndex = choice.nextStep;
+                loadStep();
+            }
+        }
+
+        function showResult(isSuccess, message) {
+            document.getElementById('gameScreen').classList.add('hidden');
+            const resScreen = document.getElementById('resultScreen');
+            resScreen.classList.remove('hidden');
+
+            const iconContainer = document.getElementById('resultIconContainer');
+            const titleEl = document.getElementById('resultTitle');
+            const descEl = document.getElementById('resultDesc');
+            const btnEl = document.getElementById('resultActionBtn');
+
+            if (isSuccess) {
+                iconContainer.className = "inline-block p-4 bg-deepPurple rounded-full mb-6 border border-[#2ea043]/40 glow-cyan";
+                iconContainer.innerHTML = '<i class="fa-solid fa-award text-5xl text-[#7ee787]"></i>';
+                titleEl.innerText = "MISSION ACCOMPLIE !";
+                titleEl.className = "title-font text-4xl font-extrabold mb-3 text-[#7ee787]";
+                descEl.innerText = message;
+
+                btnEl.className = "w-full py-4 bg-gradient-to-r from-[#2ea043] via-emerald-600 to-teal-700 hover:opacity-95 text-white font-extrabold text-xl rounded-2xl shadow-lg glow-cyan transition uppercase tracking-widest title-font";
+                btnEl.innerText = "Lancer une nouvelle mission →";
+                btnEl.onclick = startGame;
+            } else {
+                iconContainer.className = "inline-block p-4 bg-deepPurple rounded-full mb-6 border border-[#f43f5e]/40 glow-fail";
+                iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-5xl text-[#f43f5e]"></i>';
+                titleEl.innerText = "MISSION ÉCHOUÉE !";
+                titleEl.className = "title-font text-4xl font-extrabold mb-3 text-[#f43f5e]";
+                descEl.innerText = message;
+
+                btnEl.className = "w-full py-4 bg-gradient-to-r from-[#f43f5e] via-pink-600 to-rose-800 hover:opacity-95 text-white font-extrabold text-xl rounded-2xl shadow-lg glow-fail transition uppercase tracking-widest title-font";
+                btnEl.innerText = "Commencer une nouvelle mission ↻";
+                btnEl.onclick = startGame;
+            }
+        }
+    </script>
+</body>
+</html>
